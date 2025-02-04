@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Mark Attendance">
+        <div class="slds-m-around_medium">
+            <lightning-input label="Name" value={name} onchange={handleNameChange}></lightning-input>
+            <lightning-input label="Employee ID" value={employeeId} onchange={handleEmployeeIdChange}></lightning-input>
+            <input type="file" accept="image/*" capture="environment" onchange={handleImageCapture} />
+            <lightning-button label="Save Image" onclick={saveImage} disabled={isSaveDisabled}></lightning-button>
+        </div>
+        <div if:true={imageUrl}>
+            <img src={imageUrl} alt="Captured Image" width="100%" />
+        </div>
+        <lightning-spinner if:true={isLoading}></lightning-spinner>
+    </lightning-card>
+</template>

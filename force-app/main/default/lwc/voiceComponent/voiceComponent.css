@@ -1,0 +1,22 @@
+.voice-processing-container {
+    padding: 1rem;
+    background-color: #f4f6f9; /* Light background for better contrast */
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center; /* Center align all text within the container */
+}
+
+.voice-control-buttons {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 1rem; /* Add space between buttons */
+    align-items: center;
+}
+
+.transcription-output {
+    background-color: #ffffff;
+    padding: 1rem;
+    border: 1px solid #d8dde6; /* Border for separating content */
+    border-radius: 0.5rem;
+    margin-bottom: 1rem; /* Add margin below transcription display */
+}

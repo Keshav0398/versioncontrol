@@ -1,0 +1,50 @@
+<template>
+    <div class="voice-processing-container">
+        <!-- Centered Title for the component -->
+        <h2 class="slds-text-heading_medium slds-align_absolute-center slds-m-bottom_medium">Alpha BOT - AI Assistant</h2>
+        
+        <!-- Centered Voice Input Control Buttons -->
+        <div class="voice-control-buttons slds-align_absolute-center slds-m-bottom_medium">
+            <lightning-button 
+                label="Start Voice Input" 
+                onclick={startVoiceInput} 
+                class="slds-m-right_small"
+                variant="brand"
+                icon-name="utility:mic"
+                icon-position="left">
+            </lightning-button>
+            
+            <lightning-button 
+                label="Stop Voice Input" 
+                onclick={stopVoiceInput} 
+                variant="destructive"
+                icon-name="utility:close"
+                icon-position="left">
+            </lightning-button>
+        </div>
+        
+        <!-- Transcription Display -->
+        <div if:true={transcription} class="transcription-output slds-m-bottom_medium">
+            <strong>User:- </strong>
+            <lightning-formatted-text title="User" value={transcription}></lightning-formatted-text>
+        </div>
+
+        <div if:true={response} class="transcription-output slds-m-bottom_medium">
+            <strong>BOT:- </strong>
+            <lightning-formatted-text title="BOT" value={response}></lightning-formatted-text>
+        </div>
+        
+        <!-- Spacing between transcription and response button -->
+        <div class="slds-m-top_medium"></div>
+
+        <!-- Response Play Button -->
+        <lightning-button 
+            label="Play Response" 
+            onclick={playResponse} 
+            if:true={response} 
+            variant="neutral"
+            icon-name="utility:play"
+            icon-position="left">
+        </lightning-button>
+    </div>
+</template>

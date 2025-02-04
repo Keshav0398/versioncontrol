@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Add Products" icon-name="custom:custom63">
+        <template for:each={productRows} for:item="product" for:index="index">
+            <div key={product.id} class="product-row">
+                <lightning-input type="text" label="Product Name" value={product.name} onchange={handleNameChange} data-index={index}></lightning-input>
+                <lightning-input type="number" label="Stock Quantity" value={product.stockQuantity} onchange={handleStockChange} data-index={index}></lightning-input>
+                <lightning-input type="number" label="Buying Price" value={product.buyingPrice} onchange={handleBuyingPriceChange} data-index={index}></lightning-input>
+                <lightning-input type="number" label="MRP" value={product.mrp} onchange={handleMrpChange} data-index={index}></lightning-input>
+                <lightning-input type="number" label="Selling Price" value={product.sellingPrice} onchange={handleSellingPriceChange} data-index={index}></lightning-input>
+                <lightning-input type="text" label="Barcode" value={product.barcode} onchange={handleBarcodeChange} data-index={index}></lightning-input>
+                <lightning-button variant="destructive" label="Delete" onclick={deleteProductRow} data-index={index}></lightning-button>
+            </div>
+        </template>
+
+        <lightning-button variant="brand" label="Add Product Row" onclick={addProductRow}></lightning-button>
+        <lightning-button variant="success" label="Submit" onclick={submitProducts}></lightning-button>
+    </lightning-card>
+</template>

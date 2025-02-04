@@ -1,0 +1,70 @@
+:host {
+    display: block;
+    padding: 1rem;
+}
+ 
+.section-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    background-color: yellow;
+    padding: 5px;
+}
+ 
+p {
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+.help-section {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.help-text {
+    margin-left: 5px;
+    font-size: 14px; 
+    color: #666; 
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; 
+}
+
+.custom-input {
+    width: 150px; 
+}
+
+.inline-input {
+    margin-left: 500px; 
+    width: 200px;
+    padding: 5px;
+    height: 10px;
+
+}
+.radio-group {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+.radio-group lightning-radio-group {
+    flex: 1; 
+}
+
+.bold-button {
+    font-weight: bold; 
+    color: black;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem; 
+}
+
+.footer lightning-button {
+    margin-right: 0.5rem; /* Space between buttons */
+}

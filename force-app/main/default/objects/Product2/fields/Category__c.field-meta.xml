@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Air Conditioner</fullName>
+                <default>false</default>
+                <label>Air Conditioner</label>
+            </value>
+            <value>
+                <fullName>Camera</fullName>
+                <default>false</default>
+                <label>Camera</label>
+            </value>
+            <value>
+                <fullName>Microwave Oven</fullName>
+                <default>false</default>
+                <label>Microwave Oven</label>
+            </value>
+            <value>
+                <fullName>Refrigerator</fullName>
+                <default>false</default>
+                <label>Refrigerator</label>
+            </value>
+            <value>
+                <fullName>Television</fullName>
+                <default>false</default>
+                <label>Television</label>
+            </value>
+            <value>
+                <fullName>Vacuum Cleaner</fullName>
+                <default>false</default>
+                <label>Vacuum Cleaner</label>
+            </value>
+            <value>
+                <fullName>Washing Machine</fullName>
+                <default>false</default>
+                <label>Washing Machine</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

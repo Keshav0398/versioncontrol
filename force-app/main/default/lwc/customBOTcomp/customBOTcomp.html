@@ -1,0 +1,24 @@
+<template>
+    <div class={messageStyle}>
+        <!-- If the download button should be shown, display the button -->
+        <template if:true={showDownloadButton}>
+            <div class="slds-p-around_medium slds-align_absolute-center">
+                <lightning-button 
+                    label="Download Runtime Report"
+                    variant="brand"
+                    class="slds-m-top_medium slds-m-bottom_medium"
+                    onclick={handleDownloadClick}>
+                </lightning-button>
+            </div>
+        </template>
+        
+        <!-- Otherwise, display the message content -->
+        <template if:false={showDownloadButton}>
+            <div>
+                <lightning-formatted-rich-text 
+                    value={messageContent.value}>
+                </lightning-formatted-rich-text>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,79 @@
+<template>
+    <lightning-card title="Find Service Providers" icon-name="utility:search">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                label="Select Main Category"
+                value={selectedMainCategory}
+                options={mainCategoryOptions}
+                onchange={handleMainCategoryChange}
+            ></lightning-combobox>
+
+            <template if:true={subCategoryOptions.length}>
+                <lightning-combobox
+                    label="Select Subcategory"
+                    value={selectedSubCategory}
+                    options={subCategoryOptions}
+                    onchange={handleSubCategoryChange}
+                ></lightning-combobox>
+            </template>
+
+            <lightning-button
+                label="Search Service Providers"
+                variant="neutral"
+                onclick={handleSearchServiceProviders}
+                class="slds-m-top_small"
+            ></lightning-button>
+
+            <template if:true={serviceProviders.length}>
+                <div class="service-list">
+                    <template for:each={serviceProviders} for:item="service">
+                        <div key={service.Id} class="service-tile">
+                            <div class="service-content">
+                                <!-- Left Side: Company info, address, etc. -->
+                                <div class="service-left">
+                                    <div class="service-header">
+                                        <lightning-icon icon-name="utility:company" size="small" class="icon"></lightning-icon>
+                                        <p class="company-name"><strong>{service.Company__c}</strong></p>
+                                    </div>
+                                    <p class="service-address">{service.Name}</p>
+                                    <lightning-icon icon-name="utility:location" size="small" class="icon"></lightning-icon>
+                                    <p class="service-address">{service.Address__c}</p>
+                                    <p class="availability-status">Available Now</p>
+                                    <p class="service-address">About:- {service.About__c}</p>
+                                </div>
+
+                                <!-- Right Side: Call button, Google Maps button, and time -->
+                                <div class="service-right">
+                                    <lightning-button
+                                        label={service.Contact__c}
+                                        variant="brand"
+                                        onclick={handleCall}
+                                        data-number={service.Contact__c}
+                                        class="call-button"
+                                        icon-name="utility:call"
+                                    ></lightning-button>
+                                    <p class="service-time"><strong>Time: </strong>10:00 AM to 9:00 PM</p>
+                                    
+                                    <!-- Google Maps Button -->
+                                    <template if:true={service.Latitude__c}>
+                                        <lightning-button
+                                            label="View on Google Maps"
+                                            variant="neutral"
+                                            onclick={handleRedirectToMap}
+                                            data-latitude={service.Latitude__c}
+                                            data-longitude={service.Longitude__c}
+                                        ></lightning-button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:false={serviceProviders.length}>
+                <p class="slds-m-top_small">No service providers found.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

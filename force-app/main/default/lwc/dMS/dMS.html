@@ -1,0 +1,116 @@
+<template>
+    <header class="custom-header-container">
+        <div class="custom-header">
+            <div class="custom-header-logo">
+                <a href="https://alphahaq.com/" target="_blank">
+                    <img src="https://alphahaq9-dev-ed--c.develop.vf.force.com/resource/1733293549000/AlphaLOGOColour?" alt="AlphaHAQ" class="logo" />
+                </a>
+            </div>
+
+            <div class="custom-header-item custom-header-item-search">
+                <lightning-input 
+                    type="search" 
+                    placeholder="Type to search products..."
+                    value={searchTerm}
+                    onchange={handleSearch}
+                    class="search-input">
+                </lightning-input>
+            </div>
+
+            <div class="cart-container">
+                
+                
+                <template if:false={showCart}>
+                    <lightning-button-icon
+                        icon-name="utility:cart"
+                        alternative-text="Cart"
+                        onclick={handleViewCart}
+                        variant="bare"
+                        size="medium">
+                    </lightning-button-icon>
+                    <span class="cart-count">{cartCount}</span>
+                </template>
+            </div>
+        </div>
+
+        <div class="outer-soterdBy">
+            <template if:true={showCart}>
+                    <lightning-button-icon
+                        icon-name="utility:cart"
+                        class="custom-cart-icon"
+                        alternative-text="Cart"
+                        onclick={handleCloseCart}
+                        variant="bare"
+                        size="large">
+                    </lightning-button-icon>
+                </template>
+        </div>
+
+        <div class="outer-div">
+            <template if:false={showCart}>
+                <lightning-combobox
+                    name="sortBy"
+                    label="Sort By"
+                    value={sortValue}
+                    placeholder="Select sorting criteria"
+                    options={sortOptions}
+                    onchange={handleSortChange}>
+                </lightning-combobox>
+
+                <div class="product-list">
+                    <template for:each={products} for:item="product">
+                        <div key={product.Id} class="product-item">
+                            <img src={product.DisplayUrl} alt={product.Name} class="product-image" />
+                            <h2 class="product-name">{product.Name}</h2>
+                            <p class="product-description">{product.Description}</p>
+                            <p class="product-price">Price: ₹{product.price}</p>
+                            <lightning-input type="number" label="Quantity" value="1" data-id={product.Id} onchange={updateQuantity}></lightning-input>
+                            <button class="add-to-cart-btn" data-product-id={product.Id} onclick={handleAddToCart}>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={showCart}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered custom-table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><div class="slds-truncate" title="Product Name">Product Name</div></th>
+                            <th scope="col"><div class="slds-truncate" title="Quantity">Quantity</div></th>
+                            <th scope="col"><div class="slds-truncate" title="Price">Price</div></th>
+                            <th scope="col"><div class="slds-truncate" title="Action">Action</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={cart} for:item="item">
+                            <tr key={item.Id}>
+                                <td><div class="slds-truncate" title={item.Product_Name__c}>{item.Product__r.Name}</div></td>
+                                <td>
+                                    <div class="quantity-control">
+                                        <button class="slds-button slds-button_text-destructive" onclick={decreaseQuantity} data-id={item.Id}>+</button>
+                                        <div class="quantity-container">
+                                            <div class="quantity-box" title={item.Quantity__c}>
+                                                {item.Quantity__c}
+                                            </div>
+                                        </div>
+                                        <button class="slds-button slds-button_text-destructive" onclick={increaseQuantity} data-id={item.Id}>-</button>
+                                    </div>
+                                </td>
+                                <td><div class="slds-truncate" title={item.Product_Price__c}>₹{item.Product__r.Price__c}</div></td>
+                                <td>
+                                    <button class="slds-button slds-button_destructive" onclick={handleDelete} data-id={item.Id}>Remove</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="clear-cart">
+                    <button class="slds-button slds-button_destructive" onclick={clearCart}>Clear Cart</button>
+                    <button class="slds-button" onclick={checkout}>Checkout</button>
+                </div>
+            </template>
+        </div>
+    </header>
+</template>

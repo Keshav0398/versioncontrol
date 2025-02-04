@@ -1,0 +1,19 @@
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+.logo {
+    width: 200px; /* Set fixed width */
+    height: 200px; /* Set fixed height */
+    object-fit: contain; /* Ensure the logo scales proportionally */
+}
+
+@media only screen and (max-width: 600px) {
+    .logo {
+        width: 150px; /* Reduce size for mobile */
+        height: 150px; /* Reduce size for mobile */
+    }
+}

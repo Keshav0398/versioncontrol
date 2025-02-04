@@ -1,0 +1,21 @@
+.custom-button {
+    background-color: #343536;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.custom-button .slds-button {
+    background-color: #343536;
+    border: none;
+    color: white;
+}
+
+.custom-button .slds-button:hover {
+    background-color: #4b4b4b; /* Slightly lighter color on hover */
+}
+
+.custom-button .slds-button:focus {
+    outline: none;
+}

@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Product Selector">
+        <div class="slds-m-around_medium">
+            <lightning-input 
+                type="text" 
+                label="Search Products" 
+                value={searchTerm} 
+                onchange={handleSearchChange} 
+                placeholder="Type to search..." 
+                onfocus={handleFocus}>
+            </lightning-input>
+            
+            <template if:true={filteredProducts.length}>
+                <ul class="suggestions">
+                    <template for:each={filteredProducts} for:item="product">
+                        <li key={product.value} data-value={product.value} onclick={handleProductSelectFromSuggestion}>
+                            {product.label}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            
+
+            <lightning-input 
+                type="number" 
+                label="Quantity" 
+                value={quantity} 
+                onchange={handleQuantityChange} 
+                placeholder="Enter Quantity">
+            </lightning-input>
+            
+            <lightning-button 
+                variant="brand" 
+                label="Add Item" 
+                onclick={addItem}>
+            </lightning-button>
+        </div>
+        
+        <template if:true={selectedItems.length}>
+            <lightning-datatable 
+                data={selectedItems} 
+                columns={columns} 
+                key-field="id"
+                hide-checkbox-column="true">
+            </lightning-datatable>
+            <div class="total">
+                <strong>Total: {totalPrice}</strong>
+            </div>
+        </template>
+        <div>
+            <lightning-button label="Create Bill" onclick={handleCreateBill}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

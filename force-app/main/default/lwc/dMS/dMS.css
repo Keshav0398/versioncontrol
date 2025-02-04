@@ -1,0 +1,210 @@
+.custom-header-container {
+    padding: 0.2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-family: sans-serif;
+    height: 78px;
+    background-color: #f0f0f0; /* Light grey color */
+}
+
+/* Header wrapper */
+.custom-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* Header item */
+.custom-header-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo section */
+.custom-header-logo img {
+    max-height: 40px;
+}
+
+/* Category images */
+.category-images {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+.category-images img {
+    width: 100px;
+    height: auto;
+}
+
+/* Product item styles */
+.product-item {
+    padding: 1rem;
+}
+
+.cart {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.cart span {
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+}
+
+/* Product list styles */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns for product cards */
+    gap: 1rem; /* Space between the product cards */
+}
+
+.slds-box {
+    border: 1px solid black;
+    padding: 20px;
+    text-align: left;
+    margin: 12px 0;
+    background-color: #f9f9f9;  /* Light background color */
+    transition: all 0.3s ease;   /* Smooth transitions for hover effects */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 8px;  /* Rounded corners */
+}
+
+/* Active/Clicked state */
+.slds-box:active {
+    background-color: #d6d6d6;   /* Slightly darker background when clicked */
+    transform: scale(0.98);      /* Slight scaling effect on click */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);  /* Slightly less shadow on click */
+}
+
+/* Focus state for keyboard navigation */
+.slds-box:focus {
+    outline: none;
+    border-color: #005fb2;  /* Darker blue border when focused */
+    box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.5);  /* Blue glow effect */
+}
+
+.slds-box img {
+    width: 100%;
+    height: 200px; /* Set a fixed height for product images */
+    object-fit: cover; /* Ensures images cover the set height without distortion */
+}
+
+p {
+    margin: 7px 0;
+}
+
+/* Custom styles for the add to cart button */
+.add-to-cart-btn {
+    background-color: black !important;
+    color: white !important;
+    margin-top: 10px;
+    padding: 4px 7px;
+} 
+
+.add-to-cart-btn:hover {
+    background-color: white !important; /* Slightly darker shade on hover */
+    color: black !important;
+    border: 1px solid black !important;
+}
+
+/* Outer div styles */
+.outer-div {
+    background-color: white;
+    padding: 32px;
+    margin-top: 14px;
+    width: 100%;
+}
+
+.quantity-container {
+    border: 1px solid #d8dde6; /* Border for the outer box */
+    border-radius: 4px; /* Slightly rounded corners */
+    padding: 5px; /* Space inside the box */
+    background-color: #f4f6f9; /* Light background color */
+    display: inline-flex; /* Inline flex for alignment */
+    align-items: center; /* Center content vertically */
+    width: 45px;
+    height: 33px;
+}
+
+.quantity-control button {
+    margin: 0 5px; /* Adjusts space between buttons and the quantity box */
+}
+
+.quantity-box {
+    width: 60px; /* Adjust width as needed */
+    height: 20px; /* Match the button height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none; /* No border on the box */
+    background-color: transparent; /* No background */
+    text-align: center; /* Center text */
+}
+
+.custom-combobox {
+    width: 600px;
+    height: 100px;
+}
+
+.img-outer {
+    margin-top: -31px;
+}
+
+.custom-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.custom-table th {
+    background-color: #f4f6f9;
+    font-weight: bold;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.custom-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.product-list {
+    padding: 10px; /* Optional: Add padding around the product list */
+}
+
+.clear-cart {
+    margin-top: 20px; /* Optional: Add margin above the clear cart button */
+}
+
+.slds-button {
+    margin-right: 5px;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 600px) {
+    .product-list {
+        grid-template-columns: 1fr; /* Single column for small screens */
+    }
+    .product-item {
+        width: 100%; /* Ensure product items take full width */
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    .product-list {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns for larger screens */
+    }
+}

@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Barcode Scanner" icon-name="utility:scan_card">
+        <div class="slds-p-around_medium">
+            <lightning-button label="Start Scanner" onclick={startScanner}></lightning-button>
+            <video autoplay playsinline class="camera-feed" ref="videoElement"></video>
+            <div class="barcode-result">
+                <template if:true={barcodeResult}>
+                    <p>Scanned Barcode: {barcodeResult}</p>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

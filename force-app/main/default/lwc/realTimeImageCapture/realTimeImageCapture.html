@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Real-Time Image Capture">
+        <div >
+            <video style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></video>
+            <img src={imageUrl} alt="Captured Image" if:true={imageUrl} style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+            <template if:false={cameraStarted}>
+                <lightning-button label="Start Camera" onclick={startCamera} variant="brand" style="margin-right: 0.5rem;"></lightning-button>
+            </template>
+            <template if:true={cameraStarted}>
+                <lightning-button label="Cancel" onclick={cancelCamera} variant="destructive" style="margin-right: 0.5rem;"></lightning-button>
+                <lightning-button label="Capture Image" onclick={captureImage} variant="brand" disabled={disableCapture} style="margin-right: 0.5rem;"></lightning-button>
+                <lightning-button label="Submit" onclick={submitImage} variant="success" disabled={disableSubmit}></lightning-button>
+            </template>
+            <template if:true={showMobileInput}>
+                <lightning-input type="file" label="Upload Image" accept="image/*" onchange={handleImageUpload}></lightning-input>
+            </template>
+        </div>
+    </lightning-card>
+</template>

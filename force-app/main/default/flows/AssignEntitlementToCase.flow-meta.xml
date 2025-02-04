@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <recordUpdates>
+        <name>AssignEntitlementToCase</name>
+        <label>Update Case with Entitlement</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <connector>
+            <targetReference>GetEntitlement</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>EntitlementId</field>
+            <value>
+                <elementReference>GetEntitlement.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+        <storeOutputAutomatically>false</storeOutputAutomatically>
+    </recordUpdates>
+    <recordLookups>
+        <name>GetEntitlement</name>
+        <label>Get Entitlement based on Case Record Type</label>
+        <locationX>50</locationX>
+        <locationY>134</locationY>
+        <object>Entitlement</object>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Case.RecordTypeId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GetEntitlement</targetReference>
+        </connector>
+    </start>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <apiVersion>61.0</apiVersion>
+    <description>Automatically assigns an Entitlement to a Case based on the Case's Record Type.</description>
+    <environments>Default</environments>
+    <label>Auto-Assign Entitlement Based on Case Record Type</label>
+</Flow>

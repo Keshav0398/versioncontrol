@@ -1,0 +1,45 @@
+<template>
+    <lightning-card title="Product Selector">
+        <div class="slds-m-around_medium">
+            <lightning-input 
+                class="barcode-input"
+                type="text" 
+                label="Scan Product Barcode" 
+                value={searchTerm} 
+                onchange={handleBarcodeScan} 
+                placeholder="Scan barcode here...">
+            </lightning-input>
+        </div>
+
+        <template if:true={selectedItems.length}>
+            <lightning-datatable 
+                data={selectedItems} 
+                columns={columns} 
+                key-field="id"
+                hide-checkbox-column="true"
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+            <div class="total">
+                <strong>Total: {totalPrice}</strong>
+            </div>
+        </template>
+
+        <div>
+            <lightning-button label="Create Bill" onclick={handleCreateBill}></lightning-button>
+        </div>
+
+        <!-- Manual Entry Section -->
+        <div class="manual-entry-section slds-m-around_medium">
+            <h3>Manual Product Entry</h3>
+            <div class="horizontal-inputs">
+                <lightning-input type="text" label="Product Name" onchange={handleManualInputChange} data-field="name"></lightning-input>
+                <lightning-input type="number" label="MRP" onchange={handleManualInputChange} data-field="mrp"></lightning-input>
+                <lightning-input type="number" label="Selling Price" onchange={handleManualInputChange} data-field="sellingPrice"></lightning-input>
+                <lightning-input type="number" label="Quantity" onchange={handleManualInputChange} data-field="quantity" step="0.01"></lightning-input>
+            </div>
+            <lightning-button label="Add Manual Product" onclick={handleAddManualProduct}></lightning-button>
+        </div>
+
+
+    </lightning-card>
+</template>

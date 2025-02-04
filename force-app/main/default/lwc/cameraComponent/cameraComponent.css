@@ -1,0 +1,10 @@
+.camera-feed {
+    width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+}
+
+.barcode-result {
+    margin-top: 10px;
+    font-weight: bold;
+}

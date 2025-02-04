@@ -1,0 +1,181 @@
+<template>
+    <div class="new">
+        <lightning-card class="slds-card card-with-centered-title">
+            <div slot="title" class="centered-title">
+                Costing Sheet
+            </div>
+            <div class="slds-m-around_medium">
+                <!-- Input Container -->
+                <div class="input-container slds-p-around_medium bold-label">
+                    <!-- Opportunity Combobox for selecting an Opportunity -->
+                    <lightning-combobox
+                        name="opportunity"
+                        label="Select Opportunity"
+                        placeholder="Select Opportunity"
+                        options={opportunities}
+                        value={selectedOpportunity}
+                        onchange={handleOpportunityChange}>
+                    </lightning-combobox>
+
+                    <!-- Fields arranged in a single row -->
+                    <div class="slds-grid slds-wrap slds-m-top_medium">
+                        <div class="slds-col slds-size_1-of-5">
+                            <!-- Product Multi-select picklist -->
+                            <lightning-combobox
+                                name="product"
+                                label="Product"
+                                placeholder="Select Product"
+                                options={productOptions}
+                                value={selectedProduct}
+                                onchange={handleProductChange}>
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5">
+                            <!-- Product Quantity input -->
+                            <lightning-input
+                                label="Product Quantity"
+                                type="number"
+                                value={productQuantity}
+                                onchange={handleQuantityChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5">
+                            <!-- Profit Margin input -->
+                            <lightning-input
+                                label="Profit Margin (%)"
+                                type="number"
+                                step="0.01"
+                                value={profitMargin}
+                                onchange={handleProfitMarginChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5">
+                            <!-- Installation Cost (OTC) input -->
+                            <lightning-input
+                                label="Installation Cost (OTC)"
+                                type="currency"
+                                value={installationCost}
+                                onchange={handleInstallationCostChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5">
+                            <!-- Contract Term (Months) input -->
+                            <lightning-input
+                                label="Contract Term (Months)"
+                                type="number"
+                                value={contractTerm}
+                                onchange={handleContractTermChange}>
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <lightning-button class="slds-text-align_center" label="Add" onclick={handleSubmit}></lightning-button>
+                </div>
+
+                <!-- Table to display product data -->
+                <div class="slds-m-top_medium">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th scope="col"><strong>Product Name</strong></th>
+                                <th scope="col"><strong>Product <br> Quantity</strong></th>
+                                <th scope="col"><strong>Unit Cost <br> to Digicel</strong></th>
+                                <th scope="col"><strong>Total Cost <br> to Digicel</strong></th>
+                                <th scope="col"><strong>Profit Margin (%)</strong></th>
+                                <th scope="col"><strong>Unit Cost <br> to Customer</strong></th>
+                                <th scope="col"><strong>Monthly Unit <br> Cost to Digicel</strong></th>
+                                <th scope="col"><strong>Total Monthly <br> Unit Cost to Digicel</strong></th>
+                                <th scope="col"><strong>Monthly Unit <br> Price to Customer</strong></th>
+                                <th scope="col"><strong>Total Once-Off Price</strong></th>
+                                <th scope="col"><strong>Total Monthly <br> Fee</strong></th>
+                                <th scope="col"><strong>Action</strong></th> <!-- New Column for Action -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={productData} for:item="product">
+                                <tr key={product.id}>
+                                    <td>{product.productName}</td>
+                                    <td>{product.quantity}</td>
+                                    <td>{product.unitCostToDigicel}</td>
+                                    <td>{product.totalCostToDigicel}</td>
+                                    <td>{product.profitMargin}</td>
+                                    <td>{product.unitCostToCustomer}</td>
+                                    <td>{product.monthlyUnitCostToDigicel}</td>
+                                    <td>{product.totalMonthlyUnitCostToDigicel}</td>
+                                    <td>{product.monthlyUnitPriceToCustomer}</td>
+                                    <td>{product.totalOnceOffPrice}</td>
+                                    <td>{product.totalMonthlyFee}</td>
+                                    <td> <!-- Action column with Remove button -->
+                                        <lightning-button 
+                                            label="-" 
+                                            variant="destructive" 
+                                            onclick={handleRemoveProduct} 
+                                            data-id={product.id}>
+                                        </lightning-button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Total for TOTAL COST TO DIGICEL -->
+                <div class="slds-m-top_medium slds-text-align_center">
+                    <strong class='red-text'>Total Cost to Digicel: </strong>
+                    <strong>{totalCostToDigicel}</strong>
+                </div>
+
+                <!-- Generate Quote Button -->
+                <div class="slds-m-top_medium slds-text-align_center">
+                    <lightning-button class="slds-m-top_medium" label="Generate Quote" onclick={handleGenerateQuote}></lightning-button>
+                </div>
+            </div>
+
+            <!-- Final Overview Calculation Table -->
+            <div class="slds-m-top_large">
+                <lightning-card>
+                    <div slot="title" class="centered-title red-text">
+                        Final Overview Calculations
+                    </div>
+                    <div class="slds-m-around_medium">
+                        <table class="slds-table slds-table_bordered black-border-table">
+                            <tr>
+                                <td><strong>Total Cost Over (Term):</strong></td>
+                                <td>{totalCostToDigicel}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Less Total Installation:</strong></td>
+                                <td>{installationCost}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bal Digicel CAPEX:</strong></td>
+                                <td>{balDigicelCapex}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MRR - Customer Will Agree to:</strong></td>
+                                <td>{mrrCustomerAgrees}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payback (Monthly):</strong></td>
+                                <td>{paybackMonthly}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total MRR (Term):</strong></td>
+                                <td>{totalMRRTerm}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Margin (Term):</strong></td>
+                                <td>{totalMarginTerm}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ROI:</strong></td>
+                                <td>{roi}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </lightning-card>
+            </div>
+        </lightning-card>
+    </div>
+</template>

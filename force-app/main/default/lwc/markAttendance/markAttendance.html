@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Mark Attendance" icon-name="action:new_event">
+        <div class="slds-p-around_medium">
+            <!-- Input fields for Name and Employee ID -->
+            <lightning-input label="Name" value={name} onchange={handleInputChange} data-id="name" required></lightning-input>
+            <lightning-input label="Employee ID" value={employeeId} onchange={handleInputChange} data-id="employeeId" required></lightning-input>
+
+            <!-- Camera capture input for image -->
+            <div class="slds-m-top_medium">
+                <label>Capture Image</label>
+                <input type="file" accept="image/*" capture="camera" onchange={handleImageUpload} />
+            </div>
+
+            <!-- Button to submit and mark attendance -->
+            <lightning-button class="slds-m-top_medium" label="Mark Attendance" onclick={markAttendance}></lightning-button>
+
+            <!-- Show captured image preview -->
+            <template if:true={imageUrl}>
+                <div class="slds-m-top_medium">
+                    <label>Captured Image Preview</label>
+                    <img src={imageUrl} alt="Captured Image" style="width: 100px; height: auto;" />
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

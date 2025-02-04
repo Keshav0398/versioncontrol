@@ -1,0 +1,146 @@
+<template>
+
+    
+<lightning-card title="Verification Script" icon-name="utility:form">
+    <div class="help-section">
+            <lightning-icon icon-name="utility:info" alternative-text="Help" size="small" style="color: blue;"></lightning-icon>
+            <span class="help-text">Before reading this script,agents should ensure they have discussed the following information with the customer.Product required including any additional bundles,Price,Term,Speeds(Upload, download and minimum guaranteed speeds) and Directory Enquiry selection where relevant.</span>
+    </div>
+    
+<!-- First Section: Authorization -->
+<div class="section-header">Authorization</div>
+<!-- <p>I need to check that you&#39;re responsible for the selection/renewal (whichever appropriate) of your telephone/broadband services provider? (Positive yes required)</p> -->
+<p>{Authorization}</p>
+<lightning-radio-group
+            name="authorization"
+            options={yesNoOptions}
+            value={selectedAuthorization}
+            onchange={handleAuthorizationChange}>
+</lightning-radio-group>
+<!-- <p>TalkTalk Business is required to record your agreement today.</p> -->
+<p>{AuthorizationDiscription}</p>
+ 
+        <!-- Second Section: CPI Price Risers -->
+<div class="section-header">CPI Price Risers</div>
+<!-- <p>We will increase your contract prices each year by the Consumer Price Index (CPI) rate of inflation plus 3.7%. We&#39;ll tell you in advance about any changes in price. Price increases will be applied annually on 1st March. More details can be found in your contract documents.</p>
+<p><i>SF team to note: New Ts&amp;Cs will need to be included in post-area emails. For the Consult journey, Ts&amp;Cs will need to be updated into the embedded Ts&amp;Cs within the docs.</i></p> -->
+<p>{CPI_Price_Risers}</p>
+        <!-- Third Section: Switching Process -->
+<div class="section-header">Switching Process</div>
+<!-- <p>A link to our guide on switching services will be provided to you shortly in our welcome email and is also available on our website. This includes information on things to consider, how the switching process works, and details of any rights to compensation if we fail to comply with our Switching or Number Porting requirements.</p> -->
+<p>{Switching_Process}</p>
+        <!-- Fourth Section: Marketing Preferences (shown based on authorization) -->
+<template if:true={showMarketingSection}>
+<div class="section-header">Marketing Preferences</div>
+<!-- <p>At TalkTalk we regularly have relevant customer offers, events, and news about our products which we hope you&#39;d like to hear about. Would you be happy for us to contact you? Please note you can change your preferences at any time either online or by calling us.</p> -->
+<p>{Marketing_Preferences}</p>
+<lightning-radio-group
+                options={yesNoOptions}
+                value={selectedMarketingPreference}
+                onchange={handleMarketingPreferenceChange}>
+</lightning-radio-group>
+<template if:true={isYes}>
+<!-- <p>Thank you. How would you prefer we contact you from the following options? Email,Telephone, Post, Text/SMS. You can select multiple methods of contact.</p> -->
+<p>{Marketing_Preferences_thankyou_text}</p>
+</template>
+<template if:true={isNo}>
+<p>That&#39;s fine. I have opted you out for now. If you change your mind, you can opt-in at supportcenter.talktalkbusiness.co.uk.</p>
+</template>
+</template>
+
+  <template if:true={showCheckboxes}>
+        <div class="checkbox-group">
+           <lightning-input class="custom-input" type="checkbox" label="Email" onchange={handleCheckboxChange} data-type="email"></lightning-input>
+           
+            <template if:true={showEmailInput}>
+                <lightning-input type="email"  value={primaryContactEmail} class="inline-input"></lightning-input>
+            </template>
+            
+        </div>
+        <div class="checkbox-group">
+            <lightning-input class="custom-input" type="checkbox" label="Telephone" onchange={handleCheckboxChange} data-type="telephone"></lightning-input>
+            <template if:true={showTelephoneInput}>
+                <lightning-input type="tel"  value={primaryContactPhone}  class="inline-input"></lightning-input>
+            </template>
+        </div>
+        <div class="checkbox-group">
+            <lightning-input class="custom-input" type="checkbox" label="Letter" onchange={handleCheckboxChange} data-type="letter"></lightning-input>
+            <template if:true={showLetterInput}>
+                <lightning-input type="text"  value={letterValue} onchange={handleInputChange} data-field="letter" class="inline-input"></lightning-input>
+            </template>
+        </div>
+        <div class="checkbox-group">
+            <lightning-input class="custom-input" type="checkbox" label="Text (SMS/MMS)" onchange={handleCheckboxChange} data-type="text"></lightning-input>
+            <template if:true={showTextInput}>
+                <lightning-input type="text"  value={textValue} onchange={handleInputChange} data-field="text" class="inline-input"></lightning-input>
+            </template>
+        </div>
+  </template>
+  <!---Fifth Section-->
+  <template if:true={isYes}>
+<div class="section-header">Email documents process</div>
+<lightning-radio-group
+                options={yesNoOptions}
+				label= "Is Enterprise Customer?"
+                value={selectedEmaildocumentsprocess}
+                onchange={handleEmaildocumentsprocess}>
+</lightning-radio-group>
+<template if:true={isNoSelected}>
+<br>
+<p>Okay, {primaryContactName}. I am going to send you an email containing 2 documents that will detail everything we&#39;ve discussed today. Can, i just confirm your email address is {primaryContactEmail}</p>
+<br>
+<lightning-button label="Upload Documents on Opportunity" onclick={handleButtonClick}></lightning-button>
+
+<template if:true={isVisible}>
+        <div class="contract-summary">
+            <p>
+                The first is a contract summary document which summarises everything discussed today including your price, term, speeds and details of your right to exit the contract if your speeds fall below the guaranteed minimum download speed. 
+            </p>
+            <br>
+            <p>
+                The second is a contract information document which provides more detailed information about your order summary.
+            </p>
+            <br>
+            <p>
+                Please can you confirm when they have come through? Please check your Spam folder as well as your inbox. These contain all the important information about your contract.
+            </p>
+            <br>
+            <p>
+                You have the right to cancel this order up to 10 working days from the date you approve your order. If you cancel after this time, TalkTalk Business may charge you early termination fees.
+            </p>
+            <br>
+            <p>
+                Are you happy to proceed now or would you like time to review the documents first? (Verbal consent needed to confirm order)
+            </p>
+            <br>
+            <lightning-radio-group 
+                name="orderOptions"
+                options={options} 
+                value={selectedOption} 
+                onchange={handleOptionChange}>
+            </lightning-radio-group>
+
+            <template if:true={isHoldSelected}>
+                <p class="hold-message">
+                   No problem. We won&#39;t be able to progress your order until we hear back from you. If you want to proceed, we&#39;ll hold this order for you with the prices quoted for two days and you will need to contact us to complete your order. If we don&#39;t hear from you, the order will automatically cancel. Please be aware any promotional discount applied may be time limited. Once you have accepted, you&#39;ll receive an email confirming that your order has been placed. This will include your provisional install date and telephone number which may have changed due to availability.
+                </p>
+                <br>
+                
+            </template>
+        </div>
+    </template>
+
+
+</template>
+</template>
+
+        <div class="footer">
+             <lightning-button label="Previous" onclick={handlePrevious} class="bold-button"></lightning-button>
+            <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_small bold-button"></lightning-button>
+            <template if:true={isHoldSelected}>
+            <lightning-button label="Hold Order" onclick={handleReviewDocuments} class="slds-m-right_small bold-button"></lightning-button>
+           </template>
+        </div>
+
+</lightning-card>
+</template>

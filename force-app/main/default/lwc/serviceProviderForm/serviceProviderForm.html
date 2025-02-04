@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Service Provider Form" icon-name="utility:apps">
+        <div class="slds-m-around_medium">
+            <lightning-input label="Company Name" value={companyName} onchange={handleInputChange} data-id="companyName"></lightning-input>
+            <lightning-input label="Name of Service Provider" value={serviceProviderName} onchange={handleInputChange} data-id="serviceProviderName"></lightning-input>
+            <lightning-input label="Contact Information" value={contactInfo} onchange={handleInputChange} data-id="contactInfo"></lightning-input>
+            <lightning-input label="Address" value={address} onchange={handleInputChange} data-id="address"></lightning-input>
+            <lightning-input label="About your Service" value={About} onchange={handleInputChange} data-id="about"></lightning-input>
+            <lightning-combobox label="Main Category" value={mainCategory} options={mainCategoryOptions} onchange={handleMainCategoryChange}>
+            </lightning-combobox>
+            
+            <lightning-combobox label="Subcategory" value={subCategory} options={subCategoryOptions} onchange={handleInputChange} data-id="subCategory">
+            </lightning-combobox>
+
+            <lightning-button label="Submit" variant="brand" onclick={handleSaveService}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,243 @@
+<template>
+<div
+    class="slds-p-horizontal_small slds-is-relative b2b-cart-summary">
+    <div class="slds-grid slds-wrap slds-grid_pull-padded-small slds-grid_vertical-align-center">
+        <div class="slds-p-around_small b2b-quote-details-wrapper slds-grid slds-size_12-of-12 slds-large-size_12-of-12">
+            <div class="slds-grid slds-size_4-of-12 slds-p-bottom_x-small">
+                <div class="slds-m-right_small slds-m-top_xx-small" if:true={objTypeIsQuote}>
+                    <vlocity_cmt-icon theme="slds" icon-name="standard:quotes" size="medium" bg-color="rgb(59,167,85)"
+                        variant="inverse" extraclass="slds-icon_container">
+                    </vlocity_cmt-icon>
+                </div>
+                <div class="slds-m-right_small slds-m-top_xx-small" if:false={objTypeIsQuote}>
+                    <vlocity_cmt-icon theme="slds" icon-name="standard:orders" size="medium" bg-color="rgb(60,138,231)"
+                        variant="inverse" extraclass="slds-icon_container">
+                    </vlocity_cmt-icon>
+                </div>
+                <div class="slds-grid slds-grid_vertical">
+                    <h1 class="slds-text-color_weak slds-text-heading_small" if:true={objTypeIsQuote}>{labels.CMEXEnterpriseQuote} {quoteTypeName}</h1>
+                    <h1 class="slds-text-color_weak slds-text-heading_small" if:false={objTypeIsQuote}>{labels.CMEXEnterpriseOrder}</h1>
+                    <div class="b2b-cart-summary-title">{selectedRecord.label}</div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-size_8-of-12 slds-align-middle">
+                <slot name="action">
+                    <div class="slds-size_12-of-12 slds-grid slds-grid_vertical-align-end slds-grid_align-end">
+                        <div class="slds-m-right_small">
+                            <vlocity_cmt-b2b-button disabled={buttonDisabledFlag} theme="slds" variant="neutral" label={labels.CMEXAddProducts}
+                                icon-name="utility:add" icon-size="x-small" onclick={addProduct}>
+                            </vlocity_cmt-b2b-button>
+                        </div>
+                        <lightning-button-group>
+                            <button if:true={objTypeIsQuote} disabled={inflightAmendment} class="slds-button slds-button_neutral slds-is-relative"
+                                onclick={navigateToGuidedJourney}>{labels.CMEXConfigureEnterpriseGuidedQuote}
+                            </button>
+                            <button if:true={objTypeIsQuote} class={getDiscountBtnVariantClass}
+                                onclick={toggleDiscountPanel}>{labels.CMEXDiscountAndPromotions}
+                            </button>
+                            <template if:true={originalQuote}>
+                                <button if:true={quoteToEnterpriseOrderEnabled} class="slds-button slds-button_neutral slds-is-relative"
+                                    onclick={createEnterpriseOrder}>{labels.CMEXCreateEnterpriseOrder} 
+                                </button>
+                                <button if:false={quoteToEnterpriseOrderEnabled} class="slds-button slds-button_neutral slds-is-relative" data-tooltip="showGroupTooltip"
+                                    onmouseover={handleHelpTextVisibility} onmouseleave={handleHelpTextVisibility} onclick={createOrder}>
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top b2b-enterprise-order-popover-parent slds-hide" role="tooltip">
+                                        <div class="slds-popover__body b2b-bulk-popover-body">
+                                            {labels.CMEXCreateFinalOrdersHelp}
+                                        </div>
+                                    </div>
+                                    {labels.CMEXCreateFinalOrders}
+                                    </button>
+                                </template>
+                                <template if:true={inflightAmendment}>
+                                    <button class="slds-button slds-button_neutral slds-is-relative" data-tooltip="showGroupTooltip"
+                                        onmouseover={handleHelpTextVisibility} onmouseleave={handleHelpTextVisibility} onclick={createInflightOrder}>
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top b2b-enterprise-order-popover-parent slds-hide" role="tooltip">
+                                            <div class="slds-popover__body b2b-bulk-popover-body">
+                                                {labels.CMEXCreateAmendedOrderHelp}
+                                            </div>
+                                        </div>
+                                        {labels.CMEXCreateAmendedOrder}
+                                </button>
+                            </template>
+                            <template if:false={objTypeIsQuote}>
+                                <button class="slds-button slds-button_neutral slds-is-relative" data-tooltip="showGroupTooltip"
+                                    onmouseover={handleHelpTextVisibility} onmouseleave={handleHelpTextVisibility} onclick={createOrder}>
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top b2b-enterprise-order-popover-parent slds-hide" role="tooltip">
+                                        <div class="slds-popover__body b2b-bulk-popover-body">
+                                            {labels.CMEXCreateFinalOrdersHelp}
+                                        </div>
+                                    </div>
+                                    {labels.CMEXCreateFinalOrders}
+                                </button>
+                            </template>
+                            <lightning-button-menu alternative-text="Show menu" menu-alignment="right" variant="border-filled">
+                                <template for:each={actionList} for:item="item">
+                                    <lightning-menu-item theme="slds" if:true={item.showItem} label={item.label}
+key={item.label} record={item} data-method={item.method}
+onclick={executeAction}></lightning-menu-item>
+
+                                </template>
+                            </lightning-button-menu>
+                        </lightning-button-group>
+                    </div>
+                </slot>
+            </div>
+        </div>
+        <div class="slds-p-horizontal_small slds-size_12-of-12 slds-large-size_12-of-12 b2b-cart-summary-information">
+            <div class="slds-grid slds-p-vertical_small" if:true={cartData}>
+                <div class="slds-size_1-of-12">
+                    <div class="slds-text-color_weak">{labels.CMEXOneTimeTotal}</div>
+                    <div class="b2b-cart-price-text slds-p-top--xx-small slds-truncate" title={oneTimeTotal}>{oneTimeTotal}</div>
+                </div>
+                <div class="slds-size_1-of-12 slds-p-horizontal_small">
+                    <div class="slds-text-color_weak">{labels.CMEXMonthlyTotal}</div>
+                    <div class="b2b-cart-price-text slds-p-top--xx-small slds-truncate" title={monthlyTotal}>{monthlyTotal}</div>
+                </div>
+                <div class="slds-size_1-of-12 slds-p-horizontal_small">
+                    <div class="slds-text-color_weak">{cartData.ObjectType} {labels.CMEXTotal}</div>
+                    <div class="b2b-cart-price-text slds-p-top--xx-small slds-truncate" title={typeTotal}>{typeTotal}</div>
+                </div>
+                <slot name="b2bHeaderPricingSection"></slot>
+            </div>
+            <div class="slds-spinner_container slds-is-relative" if:false={cartData}>
+                <lightning-spinner alternative-text={labels.CMEXLoading} size="large" variant="brand">
+                </lightning-spinner>
+            </div>
+        </div>
+        <div class="slds-p-around_x-small slds-show_large slds-large-size_2-of-12"></div>
+    </div>
+</div>
+<div class="b2b-cart-summary-tabs slds-size_12-of-12" if:true={showMemberTabs}>
+    <slot name="tabs">
+        <vlocity_cmt-tabset id="quoteTab" if:true={tabRender} theme="slds" active-tab-value={activeTab}
+            class="b2b-tabs_default" ontabchange={handleTabChange}>
+            <vlocity_cmt-tab tab-id="Product" label={sumLabel}></vlocity_cmt-tab>
+            <vlocity_cmt-tab tab-id="Location" label={locLabel}></vlocity_cmt-tab>
+            <vlocity_cmt-tab tab-id="Subscriber" label={subLabel}></vlocity_cmt-tab>
+            <template if:true={showRecommendedProductsTab}>
+                    <vlocity_cmt-tab tab-id="Recommendations" label={labels.CMEXRecommendedProducts} icon-name="utility:einstein"> </vlocity_cmt-tab>
+                </template>
+        </vlocity_cmt-tabset>
+    </slot>
+</div>
+<div class="slds-spinner_container" if:true={loading}>
+    <lightning-spinner alternative-text={labels.CMEXLoading} size="large" variant="brand"></lightning-spinner>
+</div>
+<vlocity_cmt-b2b-apply-discount-modal cart-id={cartId} onapplieddiscount={handleDiscount}></vlocity_cmt-b2b-apply-discount-modal>
+<vlocity_cmt-b2b-clone-quote-modal class="via-nds clone-quote-modal-class"></vlocity_cmt-b2b-clone-quote-modal>
+<!--<vlocity_cmt-modal size="small" theme="slds" class="b2b-serviceability-modal">
+        <div slot="header">
+            <h1 class="b2b-modal-header">{labels.CMEXServiceabilityCheck}</h1>
+        </div>
+        <div slot="content" class="slds-is-relative">
+            <ul class="b2b-picklist-Order">
+                //Render pickListValueList1 if isFlagTrue is true 
+                <template if:true={isFlagTrue}>
+                    <template for:each={pickListValueList} for:item="pickListValues">
+                        <li class="b2b-picklist-Items" key={pickListValues.name}>
+                            <input type="checkbox" id={pickListValues.name} class="b2b-modal-checkbox"
+                                data-value={pickListValues.value} onclick={handleSelectedServices} />
+                            <label for={pickListValues.name}>
+                                <lightning-icon class="label:icon" icon-name={pickListValues.icon}
+                                    alternative-text={pickListValues.name} title={pickListValues.name}></lightning-icon>
+                                <span class="spantextItem slds-m-left_medium">{pickListValues.name}</span>
+                            </label>
+                        </li>
+                    </template>
+                </template>
+
+                // Render pickListValueList2 if isFlagTrue is false 
+                <template if:false={isFlagTrue}>
+                    <template for:each={pickListValueList2} for:item="pickListValues">
+                        <li class="b2b-picklist-Items" key={pickListValues.name}>
+                            <input type="radio" id={pickListValues.name} name="pickListValueList2Group" class="b2b-modal-checkbox"
+                                data-value={pickListValues.value} onclick={handleSelectedServices} />
+                            <label for={pickListValues.name}>
+                                <lightning-icon class="label:icon" icon-name={pickListValues.icon}
+                                    alternative-text={pickListValues.name} title={pickListValues.name}></lightning-icon>
+                                <span class="spantextItem slds-m-left_medium">{pickListValues.name}</span>
+                            </label>
+                        </li>
+                    </template>
+                </template>
+            </ul>
+        </div>
+        <div slot="footer">
+            <vlocity_cmt-button label="Cancel" onclick={closeModal}
+                extraclass="slds-p-horizontal_x-large slds-p-vertical_xxx-small" variant="neutral"
+                class="slds-float_right"></vlocity_cmt-button>
+            <vlocity_cmt-button disabled = {showNext} label="Next" onclick={subcategorylist}
+                extraclass="slds-p-horizontal_x-large slds-p-vertical_xxx-small" variant="brand"
+                class="slds-float_right slds-p-right_small" if:true={isFlagTrue}></vlocity_cmt-button>
+            <vlocity_cmt-button disabled={showNext} label="Proceed" onclick={serviceabilityCheck}
+                extraclass="slds-p-horizontal_x-large slds-p-vertical_xxx-small" variant="brand"
+                class="slds-float_right slds-p-right_small" if:false={isFlagTrue}></vlocity_cmt-button>
+            <vlocity_cmt-button disabled={showPrevious} label="Previous" onclick={handlePrevious}
+                extraclass="slds-p-horizontal_x-large slds-p-vertical_xxx-small" variant="brand"
+                class="slds-float_right slds-p-right_small" if:false={isFlagTrue}></vlocity_cmt-button>    
+        </div>
+    </vlocity_cmt-modal>-->
+
+        <!--custom model for SQ open popup-->
+<vlocity_cmt-modal size="medium" class="nds-b2b-adjust-price-modal"  data-id="showModalSQ"
+if:true={showModalSQ}>
+<div slot="header">
+    <h1 class="slds-text-heading_medium slds-text-color_inverse" style="background:#16325c">Service Qualification</h1>
+</div>
+<div slot="content" class="slds-is-relative"> 
+	<c-check-service-availibilty b2b-table-data={b2bTableData} onclosemodal ={closeModal}></c-check-service-availibilty>
+	<!--<c-service-qualification b2b-table-data={b2bTableData} onsubcategoryselection={handleSelectionChange} onhidecheckserviceability={hidecheckSQ}></c-service-qualification>-->
+</div>
+<!--checkServiceAvailibilty
+<div slot="footer">
+    <vlocity_cmt-button label="Cancel" onclick={closeModal}
+    extraclass="slds-p-horizontal_x-large slds-p-vertical_xxx-small" variant="neutral"
+    class="slds-float_right"></vlocity_cmt-button>
+    <vlocity_cmt-button disabled={isDisabled} label="Check Serviceability" onclick={serviceabilityCheck}
+     extraclass="slds-p-horizontal_x-large slds-p-vertical_xxx-small" variant="brand"
+     class="slds-float_right slds-p-right_small" if:false={isvisble} ></vlocity_cmt-button>
+</div>-->
+</vlocity_cmt-modal>
+    
+        
+    
+<vlocity_cmt-modal size="medium" class="nds-b2b-adjust-price-modal" data-id="actionModal"
+    if:true={showModalContract}>
+    <div slot="header" class="slds-text-heading_medium slds-hyphenate btn-styling">Generate Billing Account</div>
+    <div slot="content" class="save-btn nds-is-relative" style="min-height: 12rem;min-width: 10rem;">
+    <!-- <c-create-billing-details-billingcontact-english prefill={prefill} layout="lightning"></c-create-billing-details-billingcontact-english>-->
+   <c-phoenix-create-billing-details-english prefill={prefill} layout="lightning"></c-phoenix-create-billing-details-english>
+</div>
+    <div slot="footer" class="slds-button slds-float_left back-to-quote" onclick={handleCancel}>Back to Quote</div>
+</vlocity_cmt-modal>
+
+<!-- poc for validate address open popup-->
+<vlocity_cmt-modal size="medium" class="nds-b2b-adjust-price-modal"  data-id="showModalAddrVal"
+    if:true={showModalAddrVal}>
+    <div slot="header" class="slds-text-heading_medium slds-text-color_inverse" style="background:#16325c">Validate Address</div>
+    <div slot="content" class="slds-is-relative"> 
+        <c-address-validation b2b-table-data={b2bTableData} onclosemodal ={closeAddrValModal}> </c-address-validation>
+    </div>
+    
+</vlocity_cmt-modal>
+
+<vlocity_cmt-modal size="large" class="nds-b2b-adjust-price-modal"  data-id="showDocument"
+    if:true={showDocument}>
+    <div slot="header" class="slds-text-heading_medium slds-text-color_inverse" style="background:#16325c">Generate Document</div>
+    <div slot="content" class="slds-is-relative"> 
+     <c-display-Section b2b-table-data={b2bTableData} onclosemodal ={closegenerateDocument}> </c-display-Section>
+    </div>
+</vlocity_cmt-modal>
+
+
+
+<vlocity_cmt-modal size="medium" class="nds-b2b-adjust-price-modal" data-id="bookingModal" if:true={showModalAppointment}>
+    <div slot="header" class="slds-text-heading_medium slds-hyphenate btn-styling">Appointment Booking</div>
+      <div slot="content" class="save-btn nds-is-relative" style="min-height: 12rem;min-width: 10rem;">
+       <c-t-t-b-d-create-appointment-details-english prefill={prefill} layout="lightning"></c-t-t-b-d-create-appointment-details-english>
+      </div>
+   <div slot="footer" class="slds-button slds-float_left back-to-quote" onclick={handleCancel}>Back to Quote</div>
+</vlocity_cmt-modal>
+</template>

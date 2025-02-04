@@ -1,0 +1,87 @@
+.service-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.service-tile {
+    background-color: #f7f7f7; /* Slate-like background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--tile-background);
+}
+
+.service-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.service-left {
+    flex: 1;
+    text-align: left;
+}
+
+.service-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.icon {
+    margin-right: 8px;
+    color: #333;
+}
+
+.company-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.service-address {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.availability-status {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.call-button {
+    background-color: #28a745; /* Green call button */
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.service-time {
+    color: #333;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .service-list {
+        flex-direction: column;
+    }
+
+    .service-right {
+        align-items: flex-start;
+    }
+}

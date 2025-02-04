@@ -1,0 +1,11 @@
+{
+  "type" : "sfdc_cms__trustedSites",
+  "title" : "trustedSites",
+  "contentBody" : {
+    "trustedSites" : [ {
+      "isActive" : true,
+      "source" : "https://alphahaq-16d-dev-ed.develop.my.salesforce-scrt.com",
+      "sourceName" : "Messaging for Web host"
+    } ]
+  }
+}

@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Capture Location">
+        <div class="slds-m-around_medium">
+            <lightning-button label="Capture Location" onclick={handleCaptureLocation}></lightning-button>
+            <template if:true={latitude}>
+                <template if:true={longitude}>
+                    <p>Latitude: {latitude}</p>
+                    <p>Longitude: {longitude}</p>
+                    <lightning-button label="Save Location" onclick={handleSaveLocation}></lightning-button>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

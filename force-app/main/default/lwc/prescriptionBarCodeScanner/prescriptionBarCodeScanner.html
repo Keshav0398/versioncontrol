@@ -1,0 +1,19 @@
+<template>
+    
+    <template if:true={isMobilePublisher}>
+        <div class="slds-align_absolute-center slds-m-vertical_large">
+            <button
+                class="slds-var-m-left_x-small slds-button slds-p-around_large scanButton"
+                
+                
+                
+                onclick={handleBeginScanClick}>
+                <lightning-icon icon-name="utility:scan" title="Scan Medication Barcode"></lightning-icon>
+                <div class="textContainer">
+                    <div><b>Scan Medication Barcode</b></div> <br/>
+                    <div>Tap here to learn more about your medication</div>
+                </div>
+            </button>
+        </div>
+    </template>
+</template>
