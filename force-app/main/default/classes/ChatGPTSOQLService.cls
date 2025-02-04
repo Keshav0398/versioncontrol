@@ -1,7 +1,9 @@
 public without sharing class ChatGPTSOQLService {
     
     
-    private static final String API_KEY = 'sk-proj-qqR7Kq31TvUWSl9fGqpWT3BlbkFJGAgoWQfdBhB4U6C48dmF'; // Replace with your actual API key
+
+
+    private static final String API_KEY = ''; // Replace with your actual API key
     private static final String ENDPOINT_URL = 'https://api.openai.com/v1/chat/completions';
 	@AuraEnabled
     public static String processVoiceInput(String userInput) {
