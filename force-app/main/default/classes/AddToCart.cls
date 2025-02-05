@@ -5,5 +5,13 @@ public with sharing class AddToCart {
         
     }
 
+    public static void cartAddNew(){
+        
+    }
+
+    public static void cartAddnewprogram(){
+        
+    }
+
     }
 }
