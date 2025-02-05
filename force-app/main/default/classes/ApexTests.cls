@@ -35,7 +35,17 @@ private with sharing class ApexTests
         System.debug('Developer 1 update');
     }
 
+
     public static void dev1demothWithoutPull() {
         System.debug('Developer 2 update');
     }
+
+    public static void dev2MethodNew() {
+        System.debug('Developer 2 update');
+    }
+
+    public static void dev1MethodReverse(String inputString) {
+        System.debug(inputString.reverse());
+    }
+
 }
