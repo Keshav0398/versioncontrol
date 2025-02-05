@@ -26,8 +26,12 @@ private with sharing class ApexTests
 
     public static void dev2Method() {
         System.debug('Developer 2 update');
-    
+
     public static void dev1Method() {
+        System.debug('Developer 1 update');
+    }
+
+    public static void dev1MethodNew() {
         System.debug('Developer 1 update');
     }
 }
