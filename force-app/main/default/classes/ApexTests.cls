@@ -34,4 +34,8 @@ private with sharing class ApexTests
     public static void dev1MethodNew() {
         System.debug('Developer 1 update');
     }
+
+    public static void dev1demothWithoutPull() {
+        System.debug('Developer 2 update');
+    }
 }
